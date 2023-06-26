@@ -1,1 +1,0 @@
-# lukqca.github.io
