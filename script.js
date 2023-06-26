@@ -19,7 +19,7 @@ var mouseStartPosition = {x: 0, y: 0};
 var mousePosition = {x: 0, y: 0};
 var viewboxStartPosition = {x: 0, y: 0};
 var viewboxPosition = {x: 0, y: 0};
-var viewboxSize = {x: 10000, y: 10000};
+var viewboxSize = {x: 1000, y: 1000};
 var viewboxScale = 1.;
 
 var mouseDown = false;
