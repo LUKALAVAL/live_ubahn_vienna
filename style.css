@@ -26,10 +26,15 @@ body {
     width: 60px;
     border-radius: 60px;
     margin: 10px;
-    text-align: center;
-    justify-content: center;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
     display: none;
+    transition: all 0.2s;
+}
+
+.status p,
+.button p{
+    width: 60px;
+    text-align: center;
 }
 
 .button.u1 {background-color: rgb(226, 2, 17);}
@@ -39,6 +44,7 @@ body {
 .button.u6 {background-color: rgb(164, 100, 44);}
 
 #clock {
+    display: flex;
     background-color: rgb(235, 235, 235);
 }
 
@@ -47,11 +53,26 @@ body {
 }
 
 body.reveal .button,
-body.connected .status.connected,
 body:not(.connected) .status.disconnected{
     display:flex;
 }
 
+.hideU1 .button.u1,
+.hideU2 .button.u2,
+.hideU3 .button.u3,
+.hideU4 .button.u4,
+.hideU6 .button.u6 {
+    opacity: .4;
+}
+
+.button:hover,
+.button.highlight {
+    width: 90px;
+}
+.status:hover {
+    box-shadow: none;
+    width: 60px;
+}
 
 
 
@@ -59,8 +80,25 @@ body:not(.connected) .status.disconnected{
 
 /* MAP */
 
+.hideU1 .line.u1,
+.hideU2 .line.u2,
+.hideU3 .line.u3,
+.hideU4 .line.u4,
+.hideU6 .line.u6 {
+    opacity: .1;
+}
+
 .line {
     stroke-dashoffset: 4;
+}
+
+.station {
+    transition: all 0.2s;
+}
+
+.reveal .station:hover {
+    r: 3px;
+    stroke-width: 1.5px;
 }
 
 .train {
@@ -98,5 +136,44 @@ body:not(.connected) .status.disconnected{
 
 body:not(.reveal) .signature{
     display: none;
+}
+
+
+
+/* SERVER */
+
+.server {
+    position: fixed;
+    bottom: 0;
+    font-weight: medium;
+    animation: glow 1s alternate infinite;
+}
+
+.server p{
+    margin: 0;
+    padding: 10px;
+}
+
+body.connected .server{
+    display: none;
+}
+
+.server:hover {
+    text-decoration:underline;
+}
+
+@keyframes glow {
+    0% {
+        font-weight: small;
+    }
+    33% {
+        font-weight: medium;
+    }
+    66% {
+        font-weight: bold;
+    }
+    100% {
+        font-weight: bolder;
+    }
 }
 

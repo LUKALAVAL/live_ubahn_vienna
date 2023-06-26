@@ -19,7 +19,7 @@ var mouseStartPosition = {x: 0, y: 0};
 var mousePosition = {x: 0, y: 0};
 var viewboxStartPosition = {x: 0, y: 0};
 var viewboxPosition = {x: 0, y: 0};
-var viewboxSize = {x: 1000, y: 1000};
+var viewboxSize = {x: 2000, y: 2000};
 var viewboxScale = 1.;
 
 var mouseDown = false;
@@ -79,16 +79,32 @@ function mouseup(e) {
 function wheel(e) {
   var scale = (e.deltaY < 0) ? 0.8 : 1.2;
   
-  // if ((viewboxScale * scale < 1./3.) && (viewboxScale * scale > 1./20.)) {
-    if (true) {
+  if ((viewboxScale * scale < 1.) && (viewboxScale * scale > 1./25.)) {
 
-    if(viewboxScale * scale > 1./6.) {
-      document.body.classList.add('hideLabel');
-      // document.body.classList.add('hideStation');
+    if(viewboxScale * scale > 1./5.) {
+      Array.from(document.getElementsByClassName("station label")).forEach(el => {
+        el.setAttribute("opacity", 0)})
+    }
+    else if(viewboxScale * scale > 1./15.) {
+      Array.from(document.getElementsByClassName("station label")).forEach(el => {
+        el.setAttribute("opacity", 1)})
+    }
+    else if(viewboxScale * scale > 1./20.) {
+      Array.from(document.getElementsByClassName("station label")).forEach(el => {
+        el.setAttribute("opacity", 0.5)})
     }
     else {
-      document.body.classList.remove('hideLabel');
-      // document.body.classList.remove('hideStation');
+      Array.from(document.getElementsByClassName("station label")).forEach(el => {
+        el.setAttribute("opacity", 0.3)})
+    }
+
+    if(viewboxScale * scale > 1./3.){
+      Array.from(document.getElementsByClassName("station geometry")).forEach(el => {
+        el.setAttribute("opacity", 0)})
+    }
+    else if(viewboxScale * scale > 1./6.){
+      Array.from(document.getElementsByClassName("station geometry")).forEach(el => {
+        el.setAttribute("opacity", 1)})
     }
 
     var mpos = {x: mousePosition.x * viewboxScale, y: mousePosition.y * viewboxScale};
@@ -174,14 +190,47 @@ async function live() {
   
 }
 
-async function main() {
-  while(true) {
-    await live()
-    await delay(30000)
+window.setInterval(live, 30000);
+
+
+
+
+
+
+// INTERACTIVE LEGEND
+
+Array.from(document.getElementsByClassName("line geometry")).forEach(function(el) {
+  for(line_name of ["u1", "u2", "u3", "u4", "u6"]) {
+    if(el.classList.contains(line_name)){
+      el.addEventListener("mouseover", legendHighlight(line_name, ""))
+      el.addEventListener("mouseout", legendReset(line_name))
+    }
+  }
+})
+
+Array.from(document.getElementsByClassName("station geometry")).forEach(function(el) {
+  for(line_name of ["u1", "u2", "u3", "u4", "u6"]) {
+    if(el.classList.contains(line_name)){
+      el.addEventListener("mouseover", legendHighlight(line_name, ""))
+      el.addEventListener("mouseout", legendReset(line_name))
+    }
+  }
+})
+
+
+function legendHighlight(line, text) {
+  return function() {
+    button = document.getElementsByClassName("button " + line)[0]
+    button.classList.add("highlight")
   }
 }
 
-// main()
+function legendReset(line) {
+  return function() {
+    button = document.getElementsByClassName("button " + line)[0]
+    button.classList.remove("highlight")
+  }
+}
 
 
 
@@ -247,3 +296,17 @@ function drawClock() {
 }
 
 window.setInterval(drawClock, 1000);
+
+
+
+
+// ON START
+live()
+
+drawClock()
+
+Array.from(document.getElementsByClassName("station geometry")).forEach(el => {
+  el.setAttribute("opacity", 0)})
+
+Array.from(document.getElementsByClassName("station label")).forEach(el => {
+  el.setAttribute("opacity", 0)})
