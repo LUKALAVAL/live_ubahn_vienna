@@ -1,0 +1,200 @@
+body {
+    margin: auto;
+    overflow: hidden;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: larger;
+}
+
+svg {
+    user-select: none;
+}
+
+.menu {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+}
+
+
+.signature {
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    font-weight: lighter;
+    font-size: small;
+    padding: 0px 15px;
+}
+
+.status {
+    position: fixed;
+    margin: 20px;
+    height: 50px;
+    width: 50px;
+    border-radius: 60px;
+    font-weight: bolder;
+    font-size: larger;
+    color: white;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+}
+
+.status.disconnected {
+    animation: glow 0.9s alternate infinite;
+}
+
+@keyframes glow {
+    0% {
+        background-color: rgba(63, 63, 63, 0.438);
+    }
+    100% {
+        background-color: rgba(63, 63, 63, 0.8);
+    }
+}
+
+
+.status:hover {
+    background-color: rgb(63, 63, 63);
+}
+
+#clock {
+    transition: all 0.1s;
+    background-color: rgb(237, 237, 237);
+}
+
+#clock:hover {
+    margin: 15px;
+    height: 60px;
+    width: 60px;
+
+}
+
+body.connected .status.disconnected,
+body.connected .toServer,
+body:not(.connected) .status.connected {
+    visibility: hidden;
+}
+
+body:not(.reveal) .menu .drawer,
+body:not(.reveal) .signature {
+    visibility: hidden;
+}
+
+.menu .toServer {
+    position: fixed;
+    background-color: rgba(63, 63, 63, 0.585);
+    padding: 10px;
+    margin: 20px;
+    height: 50px;
+    left: 60px;
+    border-radius: 60px;
+    font-size: large;
+    color: white;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+}
+
+.menu .toServer:hover {
+    background-color: rgb(63, 63, 63);
+}
+
+.menu .button {
+    position: fixed;
+    background-color: rgb(63, 63, 63);
+    margin: 20px;
+    border-radius: 60px;
+    width: 50px;
+    height: 50px;
+    visibility: show;
+    font-weight: bolder;
+    font-size: larger;
+    color: white;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    /* transition: all 0.1s; */
+}
+
+.menu .more {
+    position: fixed;
+    margin: 15px;
+    padding: 21px;
+    left: 30px;
+    font-weight: normal;
+    font-size: medium;
+    color: white;
+    /* transition: all 0.1s; */
+}
+
+.menu .more:not(.show) {
+    margin: 20px;
+    visibility: hidden;
+}
+
+.menu .button.big {
+    margin: 15px;
+    height: 60px;
+    width: 60px;
+}
+
+.menu .button:hover {
+    margin: 15px;
+    height: 60px;
+    width: 60px;
+}
+
+body.hideLabel .station.label{
+    visibility: hidden !important;
+}
+
+body.hideStation .station.geometry{
+    visibility: hidden !important;
+}
+
+.hideU1 .line.u1,
+.hideU2 .line.u2,
+.hideU3 .line.u3,
+.hideU4 .line.u4,
+.hideU6 .line.u6 {
+    opacity: .1;
+}
+
+.hideU1 .button.u1,
+.hideU2 .button.u2,
+.hideU3 .button.u3,
+.hideU4 .button.u4,
+.hideU6 .button.u6 {
+    opacity: .4;
+}
+
+.hideU1 .station.u1,
+.hideU2 .station.u2,
+.hideU3 .station.u3,
+.hideU4 .station.u4,
+.hideU6 .station.u6 {
+    visibility: hidden !important;
+}
+
+
+/* MAP */
+
+.line {
+    stroke-dashoffset: 4;
+}
+
+.train {
+    animation: moving_train 90s linear;
+}
+
+@keyframes moving_train {
+    0% {
+        stroke-dashoffset: 4;
+    }
+    100% {
+        stroke-dashoffset: -50;
+    }
+}
+
