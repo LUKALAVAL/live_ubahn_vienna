@@ -5,42 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>UMAP</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Noto Sans'> <!-- find another font provider -->
+    <title>LiveUBahnVienna</title>
 </head>
 
 <body>
 
     <div class="menu">
-
-        <button class="status disconnected" onclick="document.body.classList.toggle('reveal')">!</button>
-        <canvas id="clock" class="status connected" width="60px" height="60px" onclick="document.body.classList.toggle('reveal')"></canvas>
-        
-
-        <div class="drawer right">
-            <button class="toServer" onclick="window.open('https://cors-anywhere.herokuapp.com/corsdemo','_blank')">Request connexion</button>
+        <canvas id="clock" class="status connected" width="60px" height="60px"></canvas>
+        <div class="status disconnected">
+            <p>...</p>
         </div>
-        <div class="drawer down">
-            <div class="more u1" style="background-color: rgb(226, 2, 17); top: 60px;"></div>
-            <div class="more u2" style="background-color: rgb(147, 94, 152); top: 120px;"></div>
-            <div class="more u3" style="background-color: rgb(219, 118, 9); top: 180px;"></div>
-            <div class="more u4" style="background-color: rgb(49, 159, 73); top: 240px;"></div>
-            <div class="more u6" style="background-color: rgb(164, 100, 44); top: 300px;"></div>
-    
-
-            <button class="button u1" style="background-color: rgb(226, 2, 17); top: 60px;"
-                onclick="document.body.classList.toggle('hideU1')">U1</button>
-            <button class="button u2" style="background-color: rgb(147, 94, 152); top: 120px;"
-                onclick="document.body.classList.toggle('hideU2')">U2</button>
-            <button class="button u3" style="background-color: rgb(219, 118, 9); top: 180px;"
-                onclick="document.body.classList.toggle('hideU3')">U3</button>
-            <button class="button u4" style="background-color: rgb(49, 159, 73); top: 240px;"
-                onclick="document.body.classList.toggle('hideU4')">U4</button>
-            <button class="button u6" style="background-color: rgb(164, 100, 44); top: 300px;"
-                onclick="document.body.classList.toggle('hideU6')">U6</button>
+        <div class="status loading">
+            <p>↺</p>
+        </div>
+        <div class="button u1">
+            <p>U1</p>
+        </div>
+        <div class="button u2">
+            <p>U2</p>
+        </div>
+        <div class="button u3">
+            <p>U3</p>
+        </div>
+        <div class="button u4">
+            <p>U4</p>
+        </div>
+        <div class="button u6">
+            <p>U6</p>
         </div>
     </div>
 
-    <svg id="svg1430" width="10000" height="10000" version="1.1" viewBox="129 209 1000 1000"
+
+    <svg id="svg1430" width="10000" height="10000" version="1.1" viewBox="0 0 10000 10000"
         xmlns="http://www.w3.org/2000/svg">
 
 
@@ -1246,8 +1243,9 @@
 
     </svg>
 
+
     <div class="signature">
-        <p>CARTOGRAPHY BY ANDER PALACIOS FRAILE & LUKA LAVAL</p>
+        <p>CARTOGRAPHY BY <b>ANDER PALACIOS FRAILE</b> & <b>LUKA LAVAL</b></p>
     </div>
 
 </body>
