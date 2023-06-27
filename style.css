@@ -29,6 +29,7 @@ body {
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
     display: none;
     transition: all 0.2s;
+    cursor: pointer;
 }
 
 .status p,
@@ -147,6 +148,7 @@ body:not(.reveal) .signature{
     bottom: 0;
     font-weight: medium;
     animation: glow 1s alternate infinite;
+    cursor: pointer;
 }
 
 .server p{
