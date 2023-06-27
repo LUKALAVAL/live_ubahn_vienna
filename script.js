@@ -305,8 +305,8 @@ live()
 
 drawClock()
 
-// Array.from(document.getElementsByClassName("station geometry")).forEach(el => {
-//   el.setAttribute("opacity", 0)})
+Array.from(document.getElementsByClassName("station geometry")).forEach(el => {
+  el.setAttribute("opacity", 0)})
 
-// Array.from(document.getElementsByClassName("station label")).forEach(el => {
-//   el.setAttribute("opacity", 0)})
+Array.from(document.getElementsByClassName("station label")).forEach(el => {
+  el.setAttribute("opacity", 0)})
