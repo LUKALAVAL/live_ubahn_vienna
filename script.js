@@ -1,25 +1,14 @@
 
-
-// MENU
-
-Array.from(document.getElementsByClassName("status")).forEach(function (el) {
-    el.addEventListener("click", _ => {
-        document.body.classList.toggle("reveal");
-    })
-})
-
-
-
-
 // MAP RESPONSIVNESS 
 
 map = document.getElementsByTagName("svg")[0];
 
 var mouseStartPosition = {x: 0, y: 0};
 var mousePosition = {x: 0, y: 0};
-var viewboxStartPosition = {x: 0, y: 0};
-var viewboxPosition = {x: 0, y: 0};
-var viewboxSize = {x: 2000, y: 2000};
+var viewboxStartPosition = {x: 150, y: 200};
+var viewboxPosition = {x: 150, y: 200};
+var viewboxSize = {x: 250, y: 250};
+var adjust = {x: viewboxSize.x/2000, y: viewboxSize.y/2000}
 var viewboxScale = 1.;
 
 var mouseDown = false;
@@ -29,8 +18,8 @@ map.addEventListener("mousedown", mousedown);
 map.addEventListener("wheel", wheel);
 
 function mousedown(e) {
-  mouseStartPosition.x = e.pageX;
-  mouseStartPosition.y = e.pageY;
+  mouseStartPosition.x = e.pageX * adjust.x;
+  mouseStartPosition.y = e.pageY * adjust.y;
 
   viewboxStartPosition.x = viewboxPosition.x;
   viewboxStartPosition.y = viewboxPosition.y;
@@ -42,29 +31,33 @@ function mousedown(e) {
 
 function setviewbox()
 {
-  var vp = {x: 0, y: 0};
   var vs = {x: 0, y: 0};
-  
-  vp.x = viewboxPosition.x;
-  vp.y = viewboxPosition.y;
-  
+
   vs.x = viewboxSize.x * viewboxScale;
   vs.y = viewboxSize.y * viewboxScale;
 
+  if(viewboxPosition.x < 0) {
+    viewboxPosition.x = 0;
+  }
+
+  if(viewboxPosition.y < 0) {
+    viewboxPosition.y = 0;
+  }
+
   map = document.getElementsByTagName("svg")[0];
-  map.setAttribute("viewBox", vp.x + " " + vp.y + " " + vs.x + " " + vs.y);
+  map.setAttribute("viewBox", viewboxPosition.x + " " + viewboxPosition.y + " " + vs.x + " " + vs.y);
 
 }
 
 function mousemove(e)
 {
-  mousePosition.x = e.offsetX;
-  mousePosition.y = e.offsetY;
+  mousePosition.x = e.offsetX * adjust.x;
+  mousePosition.y = e.offsetY * adjust.y;
   
   if (mouseDown)
   {
-    viewboxPosition.x = viewboxStartPosition.x + (mouseStartPosition.x - e.pageX) * viewboxScale;
-    viewboxPosition.y = viewboxStartPosition.y + (mouseStartPosition.y - e.pageY) * viewboxScale;
+    viewboxPosition.x = viewboxStartPosition.x + (mouseStartPosition.x - e.pageX * adjust.x) * viewboxScale;
+    viewboxPosition.y = viewboxStartPosition.y + (mouseStartPosition.y - e.pageY * adjust.y) * viewboxScale;
 
     setviewbox();
   }
@@ -79,33 +72,7 @@ function mouseup(e) {
 function wheel(e) {
   var scale = (e.deltaY < 0) ? 0.8 : 1.2;
   
-  if ((viewboxScale * scale < 1.) && (viewboxScale * scale > 1./25.)) {
-
-    if(viewboxScale * scale > 1./5.) {
-      Array.from(document.getElementsByClassName("station label")).forEach(el => {
-        el.setAttribute("opacity", 0)})
-    }
-    else if(viewboxScale * scale > 1./15.) {
-      Array.from(document.getElementsByClassName("station label")).forEach(el => {
-        el.setAttribute("opacity", 1)})
-    }
-    else if(viewboxScale * scale > 1./20.) {
-      Array.from(document.getElementsByClassName("station label")).forEach(el => {
-        el.setAttribute("opacity", 0.5)})
-    }
-    else {
-      Array.from(document.getElementsByClassName("station label")).forEach(el => {
-        el.setAttribute("opacity", 0.3)})
-    }
-
-    if(viewboxScale * scale > 1./3.){
-      Array.from(document.getElementsByClassName("station geometry")).forEach(el => {
-        el.setAttribute("opacity", 0)})
-    }
-    else if(viewboxScale * scale > 1./6.){
-      Array.from(document.getElementsByClassName("station geometry")).forEach(el => {
-        el.setAttribute("opacity", 1)})
-    }
+  if ((viewboxScale * scale < 2.) && (viewboxScale * scale > 1./3.)) {
 
     var mpos = {x: mousePosition.x * viewboxScale, y: mousePosition.y * viewboxScale};
     var vpos = {x: viewboxPosition.x, y: viewboxPosition.y};
@@ -118,6 +85,8 @@ function wheel(e) {
     setviewbox();
   }
 }
+
+
 
 
 
@@ -157,13 +126,14 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 
 async function animate(className) {
   let obj = document.getElementsByClassName(className)[0]
-  obj.classList.add("train")
+  obj.classList.add("animate")
   console.log("animate " + className)
   await delay(60000)
-  obj.classList.remove("train")
+  obj.classList.remove("animate")
 }
 
-async function live() {
+async function request() {
+
   try {
     const response = await fetch(url);
     let data = await response.json();
@@ -182,131 +152,157 @@ async function live() {
         }
       }
     }
-    document.body.classList.add("connected")
+
+    if(server.className != "connected") {
+      server.className = "connected"
+      if(inter != null) {
+        clearInterval(inter);
+      }
+      inter = window.setInterval(request, 30000);
+    }
+    
   }
   catch (error) {
-    document.body.classList.remove("connected")
+    
+    if(server.className != "disconnected") {
+      server.className = "disconnected"
+      if(inter != null) {
+        clearInterval(inter);
+      }
+      inter = window.setInterval(request, 3000);
+    }
+
   }
-  
+
 }
 
-window.setInterval(live, 30000);
+async function live() {
+  inter = null;
+  request();
+}
 
 
 
 
 
+// TOOLTIP
 
-// INTERACTIVE LEGEND
+body = document.querySelector('body');
 
-Array.from(document.getElementsByClassName("line geometry")).forEach(function(el) {
-  for(line_name of ["u1", "u2", "u3", "u4", "u6"]) {
-    if(el.classList.contains(line_name)){
-      el.addEventListener("mouseover", legendHighlight(line_name, ""))
-      el.addEventListener("mouseout", legendReset(line_name))
-    }
+lastMove = 0;
+body.addEventListener("mousemove", (e) => {
+  lastMove = 0;
+  tooltip.style.display = "none";
+});
+
+function timer() {
+  lastMove = lastMove + 1;
+  if(lastMove >= 5) {
+    tooltip.style.display = "block";
+  }
+}
+
+setInterval("timer()", 30);
+
+Array.from(document.getElementsByClassName("geometry line u1")).forEach(function(el) {
+  el.addEventListener("mousemove", (e) => {
+    tooltip.style.visibility = "visible";
+    tooltip.style.left = e.clientX + "px";
+    tooltip.style.top = e.clientY + "px";
+    Tu1.style.display = "block";
+
+  });
+  el.addEventListener("mouseout", (e) => {
+    tooltip.style.visibility = "hidden";
+    Tu1.style.display = "none";
+  });
+});
+
+Array.from(document.getElementsByClassName("geometry line u2")).forEach(function(el) {
+  el.addEventListener("mousemove", (e) => {
+    tooltip.style.visibility = "visible";
+    tooltip.style.left = e.clientX + "px";
+    tooltip.style.top = e.clientY + "px";
+    Tu2.style.display = "block";
+
+  });
+  el.addEventListener("mouseout", (e) => {
+    tooltip.style.visibility = "hidden";
+    Tu2.style.display = "none";
+  });
+});
+
+Array.from(document.getElementsByClassName("geometry line u3")).forEach(function(el) {
+  el.addEventListener("mousemove", (e) => {
+    tooltip.style.visibility = "visible";
+    tooltip.style.left = e.clientX + "px";
+    tooltip.style.top = e.clientY + "px";
+    Tu3.style.display = "block";
+
+  });
+  el.addEventListener("mouseout", (e) => {
+    tooltip.style.visibility = "hidden";
+    Tu3.style.display = "none";
+  });
+});
+
+Array.from(document.getElementsByClassName("geometry line u4")).forEach(function(el) {
+  el.addEventListener("mousemove", (e) => {
+    tooltip.style.visibility = "visible";
+    tooltip.style.left = e.clientX + "px";
+    tooltip.style.top = e.clientY + "px";
+    Tu4.style.display = "block";
+
+  });
+  el.addEventListener("mouseout", (e) => {
+    tooltip.style.visibility = "hidden";
+    Tu4.style.display = "none";
+  });
+});
+
+Array.from(document.getElementsByClassName("geometry line u6")).forEach(function(el) {
+  el.addEventListener("mousemove", (e) => {
+    tooltip.style.visibility = "visible";
+    tooltip.style.left = e.clientX + "px";
+    tooltip.style.top = e.clientY + "px";
+    Tu6.style.display = "block";
+
+  });
+  el.addEventListener("mouseout", (e) => {
+    tooltip.style.visibility = "hidden";
+    Tu6.style.display = "none";
+  });
+});
+
+
+
+
+// OVERLAY
+
+svg.addEventListener("mousedown", (e) => {
+  Tdisconnected.style.display = "none";
+  Tpending.style.display = "none";
+  Tconnected.style.display = "none";
+  Tinfo.style.display = "none";
+})
+
+server.addEventListener("click", (e) => {
+  if(server.className == "disconnected") {
+    Tdisconnected.style.display = "block";
+  }
+  else if(server.className == "pending") {
+    Tpending.style.display = "block";
+  }
+  else if(server.className == "connected") {
+    Tconnected.style.display = "block";
   }
 })
 
-Array.from(document.getElementsByClassName("station geometry")).forEach(function(el) {
-  for(line_name of ["u1", "u2", "u3", "u4", "u6"]) {
-    if(el.classList.contains(line_name)){
-      el.addEventListener("mouseover", legendHighlight(line_name, ""))
-      el.addEventListener("mouseout", legendReset(line_name))
-    }
-  }
+info.addEventListener("click", (e) => {
+  Tinfo.style.display = "block";
 })
-
-
-function legendHighlight(line, text) {
-  return function() {
-    button = document.getElementsByClassName("button " + line)[0]
-    button.classList.add("highlight")
-  }
-}
-
-function legendReset(line) {
-  return function() {
-    button = document.getElementsByClassName("button " + line)[0]
-    button.classList.remove("highlight")
-  }
-}
-
-
-
-
-
-
-// CLOCK (BY FLORIAN LEDERMANN)
-
-let canvas = document.getElementById("clock");
-let ctx = canvas.getContext("2d");
-
-let width = canvas.width;
-let height = canvas.height;
-
-let secondLength = width / 2 -9;
-let minuteLength = width / 2 -10;
-let hourLength = width / 2 -18;
-
-function drawLine(x1, y1, x2, y2, lineWidth, color) {
-    ctx.lineWidth = lineWidth;
-    ctx.strokeStyle = color;
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.stroke();
-}
-
-function drawHand(angle, length, lineWidth, color) {
-    let x = width/2 + Math.cos(angle) * length;
-    let y = height/2 + Math.sin(angle) * length;
-    drawLine(width/2, height/2, x, y, lineWidth, color);
-}
-
-function drawBackground() {
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = "grey";
-    ctx.beginPath();
-    // arc(x, y, radius, startAngle, endAngle);
-    ctx.arc(width/2, height/2, width/2, 0, Math.PI*2);
-    ctx.stroke();
-}
-
-function drawClock() {
-
-    ctx.clearRect(0,0,width,height);
-
-    let time = new Date();
-    let second = time.getSeconds();
-    let secondAngle = (second / 60 - 0.25) * 2 * Math.PI;
-    let minute = time.getMinutes() + second / 60;
-    let minuteAngle = (minute / 60 - 0.25) * 2 * Math.PI;
-    let hour = time.getHours() + minute / 60;
-    let hourAngle = (hour / 12 - 0.25) * 2 * Math.PI;
-    
-    ctx.lineWidth = 0.5;
-    ctx.lineCap = "round";
-    
-    drawBackground();
-    
-    drawHand(secondAngle, secondLength, 2, "red");
-    drawHand(minuteAngle, minuteLength, 2, "black");
-    drawHand(hourAngle, hourLength, 3.5, "black");  
-}
-
-window.setInterval(drawClock, 1000);
-
 
 
 
 // ON START
-live()
-
-drawClock()
-
-Array.from(document.getElementsByClassName("station geometry")).forEach(el => {
-  el.setAttribute("opacity", 0)})
-
-Array.from(document.getElementsByClassName("station label")).forEach(el => {
-  el.setAttribute("opacity", 0)})
+live();

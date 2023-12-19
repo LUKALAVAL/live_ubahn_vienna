@@ -1,78 +1,23 @@
 body {
     margin: 0;
-    font-family: Noto Sans, Arial, sans-serif;
+    font-family: 'Noto Sans', Arial, Helvetica, sans-serif;
     user-select: none;
     overflow: hidden;
+    background-color: #aed2b8;
+    color: rgba(0, 0, 0, 0.75);
 }
 
-
-
-
-
-/* MENU */
-
-.menu {
-    position: fixed;
-    padding: 5px;
-    font-weight: bold;
-    font-size: 25px;
-    line-height: 13px; 
-    color:white;
+a {
+    color: inherit;
 }
 
-.status,
-.button {
-    height: 60px;
-    width: 60px;
-    border-radius: 60px;
-    margin: 10px;
-    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
-    display: none;
-    transition: all 0.2s;
-    cursor: pointer;
+h1 {
+    margin: 0;
 }
 
-.status p,
-.button p{
-    width: 60px;
-    text-align: center;
-}
-
-.button.u1 {background-color: rgb(226, 2, 17);}
-.button.u2 {background-color: rgb(147, 94, 152);}
-.button.u3 {background-color: rgb(219, 118, 9);}
-.button.u4 {background-color: rgb(49, 159, 73);}
-.button.u6 {background-color: rgb(164, 100, 44);}
-
-#clock {
-    display: flex;
-    background-color: rgb(235, 235, 235);
-}
-
-.status {
-    background-color: rgb(137, 137, 137)
-}
-
-body.reveal .button,
-body:not(.connected) .status.disconnected{
-    display:flex;
-}
-
-.hideU1 .button.u1,
-.hideU2 .button.u2,
-.hideU3 .button.u3,
-.hideU4 .button.u4,
-.hideU6 .button.u6 {
-    opacity: .4;
-}
-
-.button:hover,
-.button.highlight {
-    width: 90px;
-}
-.status:hover {
-    box-shadow: none;
-    width: 60px;
+h5 {
+    margin: 0;
+    font-weight: 500;
 }
 
 
@@ -80,6 +25,20 @@ body:not(.connected) .status.disconnected{
 
 
 /* MAP */
+
+svg {
+    width: 2000;
+    height: 2000;
+}
+
+svg * {
+    font-family: 'Noto Sans';
+    pointer-events: all;
+}
+
+.line {
+    stroke-dashoffset: 4;
+}
 
 .hideU1 .line.u1,
 .hideU2 .line.u2,
@@ -89,20 +48,7 @@ body:not(.connected) .status.disconnected{
     opacity: .1;
 }
 
-.line {
-    stroke-dashoffset: 4;
-}
-
-.station {
-    transition: all 0.2s;
-}
-
-.reveal .station:hover {
-    r: 3px;
-    stroke-width: 1.5px;
-}
-
-.train {
+.animate {
     animation: moving_train 90s linear;
 }
 
@@ -121,61 +67,229 @@ body:not(.connected) .status.disconnected{
 
 
 
-/* AUTHORS */
 
-.signature {
+
+/* TOOLTIP */
+
+#tooltip {
+    background-color: white;
     position: fixed;
-    right: 0;
-    bottom: 0;
-    font-weight: medium;
-}
-
-.signature p{
-    margin: 0;
+    top: -500px;
+    left: -500px;
+    margin: 12px;
     padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 5px;
 }
 
-body:not(.reveal) .signature{
+.description {
     display: none;
 }
 
+.description p {
+    margin: 0;
+}
+
+.description.line  .title {
+    display: flex;
+    align-items: center;
+}
+
+.description.line .terminus {
+    font-size: small;
+    font-weight: bold;
+}
+
+.icon {
+    font-weight: bolder;
+    color: white;
+    margin: 5px 5px 5px 0;
+    padding: 3px 10px;
+    height: fit-content;
+    font-size: large;
+}
 
 
-/* SERVER */
+.icon.u1 {background-color: rgb(226, 2, 17);}
+.icon.u2 {background-color: rgb(147, 94, 152);}
+.icon.u3 {background-color: rgb(219, 118, 9);}
+.icon.u4 {background-color: rgb(49, 159, 73);}
+.icon.u6 {background-color: rgb(164, 100, 44);}
 
-.server {
-    position: fixed;
-    bottom: 0;
-    font-weight: medium;
-    animation: glow 1s alternate infinite;
+
+
+
+
+/* SERVER and INFO */
+
+
+#info, #server {
+    font-size:larger;
+    height: 25px;
+    width: 25px;
+    line-height: 25px;
+    text-align: center;
+    vertical-align: middle;
     cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    font-family: monospace;
 }
 
-.server p{
-    margin: 0;
+#info,
+#Tinfo {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
+
+#server, 
+#Tdisconnected, 
+#Tpending, 
+#Tconnected {
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px -22px 70px 4px;
+    font-family: monospace;
+}
+
+#info,
+#Tinfo,
+#server, 
+#Tdisconnected, 
+#Tpending, 
+#Tconnected {
+    margin: 10px;
+    /* font-family: monospace; */
+}
+
+.text {
+    display: none;
     padding: 10px;
+    max-width: 30%;
 }
 
-body.connected .server{
+#Tinfo {
+    background-color: white;
+}
+#Tdisconnected {
+    background-color: rgb(255, 51, 0);
+}
+#Tpending {
+    background-color: rgb(255, 180, 6);
+}
+#Tconnected {
+    background-color: rgb(37, 185, 79);
+}
+
+
+
+@keyframes blink {
+    0%, 100% {background-color: rgba(255, 51, 0, 0.252);}
+    50%   {background-color: rgb(255, 51, 0);}
+}
+#server.disconnected { 
+    background-color: rgb(255, 51, 0);
+    animation: infinite ease blink 1s;
+}
+#server.disconnected:hover {
+    animation: none;
+}
+#server.pending {
+    background-color: rgb(255, 180, 6);
+}
+#server.connected {
+    background-color: rgb(37, 185, 79);
+}
+
+
+
+/* #info span {
+    display: none;
+} */
+
+/* #info:hover {
+    background-color: rgb(255, 255, 255);
+}
+
+#info:hover span {
+    cursor: pointer;
+    display: block;
+    background-color: white;
+    max-width: 30vw;
+} */
+
+
+
+
+
+
+
+/* LEGEND */
+
+/* #legend {
+    position: fixed;
+    font-weight: bold;
+    margin: 10px;
+    padding: 20px;
+    font-size: large;
+    text-align: left;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    border-radius: 3px;
+    max-width: 12vw;
+}
+
+#legend p {
+    margin: 0;
+}
+
+#legend.default p {
+    margin-bottom: 10px;
+}
+
+#legend.default .shieldContainer {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#legend .shield {
+    font-weight: bolder;
+    color: white;
+    margin: 0 10px 10px 0;
+    padding: 3px 10px;
+    height: fit-content;
+}
+
+#legend .shield.u1 {background-color: rgb(226, 2, 17);}
+#legend .shield.u2 {background-color: rgb(147, 94, 152);}
+#legend .shield.u3 {background-color: rgb(219, 118, 9);}
+#legend .shield.u4 {background-color: rgb(49, 159, 73);}
+#legend .shield.u6 {background-color: rgb(164, 100, 44);}
+
+#Ld, #Lu1, #Lu2, #Lu3, #Lu4, #Lu6 {
     display: none;
 }
 
-.server:hover {
-    text-decoration:underline;
+.Ld #Ld {display: block;}
+.Lu1 #Lu1 {display: block;}
+.Lu2 #Lu2 {display: block;}
+.Lu3 #Lu3 {display: block;}
+.Lu4 #Lu4 {display: block;}
+.Lu6 #Lu6 {display: block;}
+
+
+#legend .lineContainer {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-end
 }
 
-@keyframes glow {
-    0% {
-        font-weight: small;
-    }
-    33% {
-        font-weight: medium;
-    }
-    66% {
-        font-weight: bold;
-    }
-    100% {
-        font-weight: bolder;
-    }
-}
-
+#legend.default .signature {
+    font-weight: 400;
+    margin: 0;
+    margin-top: 20px;
+    font-size: xx-small;
+    text-align: right;
+} */
