@@ -11,65 +11,53 @@
 
 <body>
 
-    <div id="server" class="pending">
-        <span class="disconnected" onclick="window.open('https://cors-anywhere.herokuapp.com/corsdemo','_blank')">
-            server: disconnected<br>
-            click to request access
-        </span>
-        <span class="pending">
-            server: pending
-        </span>
-        <span class="connected">
-            server: connected <br>
-            wait a few seconds for the<br>
-            first trains to appear
-        </span>
+
+    <div id="info">
+        ?
     </div>
 
-    <!-- <div id="legend" class="default">
+    <div id="server" class="pending">
+        !
+    </div>
 
-        <div id="Ldefault" class="content default">
-            <p class="title">Live metro Vienna</p>
-            <div class="shieldContainer">
-                <div class="button shield u1">U1</div>
-                <div class="button shield u2">U2</div>
-                <div class="button shield u3">U3</div>
-                <div class="button shield u4">U4</div>
-                <div class="button shield u6">U6</div>
-            </div>
-            <p class="signature">by <b>Luka Laval</b><br>& <b>Ander Palacios</b></p>
-        </div>
+    <span id="Tinfo" class="text info">
+        <h1>
+            Live Metro Vienna
+        </h1>
+        <h5>
+            by <a href="https://lukalaval.github.io/" target=”_blank”>Luka Laval</a> with support from <a href="https://www.linkedin.com/in/ander-palacios-fraile-b73427210/?originalSubdomain=es" target=”_blank”>Ander Palacios</a> and <a href="https://floledermann.com/" target=”_blank”>Florian Ledermann</a>
+        </h5>
+        <br>
+        This map displays the viennese metro network with a near to real time position of the trains.
 
-        <div id="Lu1" class="content line u1">
-            <div class="lineContainer">
-                <div class="shield u1">U1</div>
-            </div>
-        </div>
+        <ul>
+            <li>Zoom and move the map naturally with your mouse cursor</li>
+            <li>Hover an element on the map to display its legend</li>
+            <li>Verify if the connection to the server is established by clicking the button (!) in the top left corner</li>
+            <li>Enjoy exploring the map</li>
+        </ul>
 
-        <div id="Lu2" class="content line u2">
-            <div class="lineContainer">
-                <div class="shield u2">U2</div>
-            </div>
-        </div>
 
-        <div id="Lu3" class="content line u3">
-            <div class="lineContainer">
-                <div class="shield u3">U3</div>
-            </div>
-        </div>
-
-        <div id="Lu4" class="content line u4">
-            <div class="lineContainer">
-                <div class="shield u4">U4</div>
-            </div>
-        </div>
-
-        <div id="Lu6" class="content line u6">
-            <div class="lineContainer">
-                <div class="shield u6">U6</div>
-            </div>
-        </div>
-    </div> -->
+        <h5>
+            api <a href="https://data.europa.eu/data/datasets/522d3045-0b37-48d0-b868-57c99726b1c4?locale=en" target=”_blank”>Vienna Lines Real-time data via data hub Vienna</a>
+            <br>
+            map adapted from <a href="https://commons.wikimedia.org/wiki/File:U-Map_Vienna.svg">Gnlpfth12</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons
+            <br>
+            <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://lukalaval.github.io/liveUndergroundVienna.html">Live Metro Vienna</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://lukalaval.github.io">Luka Laval</a> is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0</a></p>
+        </h5>
+    </span>
+    <span id="Tdisconnected" class="text disconnected">
+        <i>server: disconnected</i><br>
+        <a href="https://cors-anywhere.herokuapp.com/corsdemo" target=”_blank”>click here</a> to request access
+    </span>
+    <span id="Tpending" class="text pending">
+        <i>server: pending</i>
+    </span>
+    <span id="Tconnected" class="text connected">
+        <i>server: connected</i><br>
+        wait a few seconds for the<br>
+        first trains to appear
+    </span>
 
     <div id="tooltip">
         <div id="Tu1" class="description line">
@@ -104,8 +92,8 @@
         </div>
     </div>
 
-    <!-- !! manual modification for svg width="2000" height="2000" viewBox="150 200 250 250" !! -->
-    <svg id="svg1795" version="1.1" width="2000" height="2000" viewBox="150 200 250 250"
+    <!-- !! manual modification for svg id="svg" width="2000" height="2000" viewBox="150 200 250 250" !! -->
+    <svg id="svg" version="1.1" width="2000" height="2000" viewBox="150 200 250 250"
         xmlns="http://www.w3.org/2000/svg">
         <defs id="defs166">
             <filter id="drop-shadow-filter-0" x="-.057082" y="-.22157" width="1.1142" height="1.4431"

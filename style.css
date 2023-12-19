@@ -4,6 +4,20 @@ body {
     user-select: none;
     overflow: hidden;
     background-color: #aed2b8;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+a {
+    color: inherit;
+}
+
+h1 {
+    margin: 0;
+}
+
+h5 {
+    margin: 0;
+    font-weight: 500;
 }
 
 
@@ -106,24 +120,75 @@ svg * {
 
 
 
+/* SERVER and INFO */
 
 
+#info, #server {
+    font-size:larger;
+    height: 25px;
+    width: 25px;
+    line-height: 25px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: rgb(255, 255, 255);
+    font-family: monospace;
+}
 
-/* SERVER */
-#server  {
+#info,
+#Tinfo {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+}
+
+#server, 
+#Tdisconnected, 
+#Tpending, 
+#Tconnected {
     position: fixed;
     top: 0;
     left: 0;
-    padding: 8px;
-    margin: 10px;
     box-shadow: rgba(0, 0, 0, 0.56) 0px -22px 70px 4px;
     font-family: monospace;
 }
 
-#server span {
-    display: none;
+#info,
+#Tinfo,
+#server, 
+#Tdisconnected, 
+#Tpending, 
+#Tconnected {
+    margin: 10px;
+    /* font-family: monospace; */
 }
 
+.text {
+    display: none;
+    padding: 10px;
+    max-width: 30%;
+}
+
+#Tinfo {
+    background-color: white;
+}
+#Tdisconnected {
+    background-color: rgb(255, 51, 0);
+}
+#Tpending {
+    background-color: rgb(255, 180, 6);
+}
+#Tconnected {
+    background-color: rgb(37, 185, 79);
+}
+
+
+
+@keyframes blink {
+    0%, 100% {background-color: rgba(255, 51, 0, 0.252);}
+    50%   {background-color: rgb(255, 51, 0);}
+}
 #server.disconnected { 
     background-color: rgb(255, 51, 0);
     animation: infinite ease blink 1s;
@@ -131,28 +196,35 @@ svg * {
 #server.disconnected:hover {
     animation: none;
 }
-#server.disconnected:hover span.disconnected {
-    cursor: pointer;
-    display: block;
-}
-@keyframes blink {
-    0%, 100% {background-color: rgba(255, 51, 0, 0.252);}
-    50%   {background-color: rgb(255, 51, 0);}
-}
-
 #server.pending {
     background-color: rgb(255, 180, 6);
 }
-#server.pending:hover span.pending {
-    display: block;
-}
-
 #server.connected {
     background-color: rgb(37, 185, 79);
 }
-#server.connected:hover span.connected {
-    display: block;
+
+
+
+/* #info span {
+    display: none;
+} */
+
+/* #info:hover {
+    background-color: rgb(255, 255, 255);
 }
+
+#info:hover span {
+    cursor: pointer;
+    display: block;
+    background-color: white;
+    max-width: 30vw;
+} */
+
+
+
+
+
+
 
 /* LEGEND */
 

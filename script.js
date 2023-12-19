@@ -202,7 +202,7 @@ function timer() {
   }
 }
 
-setInterval("timer()", 70);
+setInterval("timer()", 30);
 
 Array.from(document.getElementsByClassName("geometry line u1")).forEach(function(el) {
   el.addEventListener("mousemove", (e) => {
@@ -274,6 +274,33 @@ Array.from(document.getElementsByClassName("geometry line u6")).forEach(function
   });
 });
 
+
+
+
+// OVERLAY
+
+svg.addEventListener("mousedown", (e) => {
+  Tdisconnected.style.display = "none";
+  Tpending.style.display = "none";
+  Tconnected.style.display = "none";
+  Tinfo.style.display = "none";
+})
+
+server.addEventListener("click", (e) => {
+  if(server.className == "disconnected") {
+    Tdisconnected.style.display = "block";
+  }
+  else if(server.className == "pending") {
+    Tpending.style.display = "block";
+  }
+  else if(server.className == "connected") {
+    Tconnected.style.display = "block";
+  }
+})
+
+info.addEventListener("click", (e) => {
+  Tinfo.style.display = "block";
+})
 
 
 
